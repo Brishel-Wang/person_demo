@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.6.1",
+  "mode": "research",
+  "status": "downloaded_and_probed",
+  "models": [
+    {
+      "key": "body_detector",
+      "task": "person_detection",
+      "architecture": "YOLO26x",
+      "file": "yolo26x.pt",
+      "source": "https://huggingface.co/Ultralytics/YOLO26/blob/4558807/yolo26x.pt",
+      "sha256": "9fdd44a31c504547ffb81d2c6d9e6dac3493c8eaa8b0398d3f43bae6c7003e92",
+      "revision": "Ultralytics/YOLO26 4558807",
+      "approved_for_production": false,
+      "imgsz": 1920,
+      "target_class": "person",
+      "license": "agpl-3.0"
+    },
+    {
+      "key": "body_detector_legacy",
+      "task": "person_detection",
+      "architecture": "YOLO11s",
+      "file": "yolo11s.pt",
+      "source": "https://docs.ultralytics.com/models/yolo11/",
+      "sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+      "revision": "Ultralytics/YOLO11 (hf-mirror main)",
+      "approved_for_production": false,
+      "imgsz": 640
+    },
+    {
+      "key": "body_osnet",
+      "task": "body_embedding",
+      "architecture": "osnet_ain_x1_0",
+      "source": "https://huggingface.co/kaiyangzhou/osnet",
+      "file": "osnet_ain_x1_0_msmt17_256x128_amsgrad_ep50_lr0.0015_coslr_b64_fb10_softmax_labsmth_flip_jitter.pth",
+      "sha256": "8a07e8da38946f7cee37f4561617bf8b6d2fe8f3a4027852893ea092e46d919f",
+      "revision": "kaiyangzhou/osnet (hf-mirror main)",
+      "modality": "body",
+      "expected_dim": 512,
+      "approved_for_production": false
+    },
+    {
+      "key": "report_qwen",
+      "task": "evidence_based_report_generation",
+      "model_id": "Qwen/Qwen3.5-9B",
+      "source": "https://huggingface.co/Qwen/Qwen3.5-9B",
+      "revision": "ModelScope master (2026-11-18)",
+      "weights_manifest_sha256": "46910f5db3cbd8dfdf7abf258625e604b0b2329b935511a47f44805e7fd26011",
+      "tokenizer_revision": null,
+      "chat_template_sha256": null,
+      "code_and_weight_terms_to_record": true,
+      "precision": "bfloat16",
+      "approved_for_production": false
+    }
+  ],
+  "required_records": [
+    "actual model SHA256",
+    "source revision or release",
+    "terms and data restrictions",
+    "input preprocessing",
+    "output probe",
+    "ExecutionProvider",
+    "feature_space_id",
+    "deployment approval"
+  ]
+}

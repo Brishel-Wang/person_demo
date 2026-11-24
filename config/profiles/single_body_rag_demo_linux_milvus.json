@@ -1,0 +1,214 @@
+{
+  "spec_version": "1.6.1",
+  "profile": "single_body_rag_demo_linux_milvus",
+  "status": "executed",
+  "dataset_id": "single_camera_demo_v1",
+  "time_axis": "asset_relative",
+  "device": "cuda:0",
+  "body_encoder": {
+    "implementation": "torchreid",
+    "architecture": "osnet_ain_x1_0",
+    "checkpoint_source": "https://huggingface.co/kaiyangzhou/osnet",
+    "checkpoint_filename": "osnet_ain_x1_0_msmt17_256x128_amsgrad_ep50_lr0.0015_coslr_b64_fb10_softmax_labsmth_flip_jitter.pth",
+    "weights_sha256": "8a07e8da38946f7cee37f4561617bf8b6d2fe8f3a4027852893ea092e46d919f",
+    "source_revision": "kaiyangzhou/osnet (hf-mirror main)",
+    "feature_space_id": "8337a7675314855e48907439ceb4b279f8ff44af840a74344f9cd5738b26b17c",
+    "expected_dim": 512,
+    "input_color": "RGB",
+    "input_height": 256,
+    "input_width": 128,
+    "mean": [
+      0.485,
+      0.456,
+      0.406
+    ],
+    "std": [
+      0.229,
+      0.224,
+      0.225
+    ],
+    "l2_normalize": true,
+    "normalization_epsilon": 1e-12,
+    "aggregation_version": "mean_l2_v1",
+    "aggregation": "l2_normalize(mean(l2_normalized_representative_vectors))"
+  },
+  "capabilities": {
+    "body": true,
+    "face": false,
+    "dinov3": false,
+    "qwen": true,
+    "depth_anything": false,
+    "rtsp": false
+  },
+  "versions": {
+    "milvus_series": "2.6.x",
+    "milvus_exact": null,
+    "milvus_image_digest": null,
+    "pymilvus_exact": null
+  },
+  "pipeline": {
+    "analysis_fps": 10,
+    "tracklet_max_duration_s": 30,
+    "representative_frames_max": 5,
+    "representative_min_gap_s": 0.5,
+    "representative_policy": "equal_time_bins_then_max_laplacian_variance",
+    "sharpness_resize_hw": [
+      256,
+      128
+    ],
+    "sharpness_metric": "variance(laplacian(gray))",
+    "primary_key_policy": "stable_per_tracklet_revision"
+  },
+  "vector_store": {
+    "backend": "milvus",
+    "database": "person_demo",
+    "collection_template": "body_<space_hash12>_ar1",
+    "uri_env": "MILVUS_URI",
+    "token_env": "MILVUS_TOKEN",
+    "index": "FLAT",
+    "metric": "COSINE",
+    "execution": "CPU",
+    "consistency": "Strong",
+    "auto_id": false,
+    "dynamic_fields": false,
+    "role": "tracklet_prototype",
+    "upsert_batch_size": 256,
+    "upsert_max_wait_ms": 1000,
+    "publication_policy": "sql_outbox_then_milvus_verify_then_contiguous_ready_watermark",
+    "schema_version": "1.4",
+    "publication_scope": "dataset/asset/run/feature_space"
+  },
+  "retrieval": {
+    "profile": "single_body_mean_l2_v1",
+    "bucket_seconds": 60,
+    "raw_limit_backfill_steps": [
+      20,
+      40,
+      80,
+      160,
+      200
+    ],
+    "max_candidate_tracklets": 100,
+    "candidate_cap_policy": "round_robin_by_asset_bucket_rank",
+    "rerank": "mean_top_min_2_n_representative_cosines",
+    "sort": [
+      "rerank_similarity DESC",
+      "prototype_similarity DESC",
+      "tracklet_revision_id ASC"
+    ],
+    "min_similarity": null,
+    "auto_accept": false,
+    "display_top_k_per_camera": 5,
+    "evaluation_scope": "intra_camera_demo",
+    "exclude_source_camera_for_cross_camera": false,
+    "query_anchor_expansion": false,
+    "wait_index_timeout_s": 120,
+    "bucket_scope": "source_asset_id",
+    "per_asset_bucket_top_k": 20,
+    "default_mode": "body_only",
+    "allowed_modes": [
+      "body_only"
+    ],
+    "allowed_evaluation_scopes": [
+      "intra_camera_demo",
+      "intra_camera_holdout"
+    ],
+    "origin_exclusion": {
+      "origin_tracklet_revision_required": true,
+      "exclude_entire_source_camera": false,
+      "demo_exclude_origin_continuation_group": false,
+      "holdout_exclude_origin_continuation_group": true,
+      "continuation_hits_must_be_labeled": true,
+      "origin_unknown_policy": "mark_unverified_not_independent_evaluation"
+    },
+    "display_layout": "single_video_top5_plus_paginated_candidates"
+  },
+  "workbench_appearance": {
+    "ingest_cli_profile": "dense_appearance_v2",
+    "scope": "longest_ready_run_from_start",
+    "analysis_fps": 10,
+    "retain_unassociated_detections": true,
+    "observation_collection_template": "body_frames_<space_hash12>_v2",
+    "observation_primary_key": "observation_id",
+    "index": "FLAT",
+    "metric": "COSINE",
+    "result_group": "tracklet_revision_id",
+    "score": "max_matched_frame_cosine",
+    "default_min_similarity": 0.68,
+    "similarity_presets": [
+      0.55,
+      0.68,
+      0.8
+    ],
+    "candidate_limit": null,
+    "auto_accept": false
+  },
+  "storage": {
+    "root_env": "PERSON_DEMO_STORAGE_ROOT",
+    "retention_policy": "explicit_before_import",
+    "retention_days": null,
+    "vector_artifact_format": "float32 npy plus JSON row index",
+    "immutable_artifacts": true
+  },
+  "future_deployment": {
+    "windows_wsl2": "milvus",
+    "windows_native_local": "pgvector adapter after Linux demo; not yet implemented"
+  },
+  "metadata": {
+    "missing_recording_time_allowed": true,
+    "missing_location_allowed": true,
+    "cross_camera_alignment_required_for_body_search": false,
+    "default_time_axis": "asset_relative",
+    "world_time_search_enabled": false,
+    "map_enabled": false,
+    "versioned": true,
+    "local_timeline_available": true
+  },
+  "report": {
+    "enabled": true,
+    "auto_report": true,
+    "profile": "qwen_single_report_local_v1",
+    "run_after": "materialized COMPLETED or PARTIAL search snapshot",
+    "independent_job_status": true,
+    "failure_policy": "template_degraded_not_llm_success",
+    "evidence_scope": "current_authorized_search_revision",
+    "current_mode": "single_video_summary",
+    "trajectory_planning_current": false,
+    "full_demo_acceptance_stage": "D6"
+  },
+  "sources": {
+    "max_cameras": 1,
+    "max_video_assets": 1,
+    "default_camera_code": "cam_01",
+    "default_filename": "cam1.mp4",
+    "initial_window_us": {
+      "start": 0,
+      "end": 200000000
+    },
+    "default_local_path": "/root/ppt-agent-wildtrack/Wildtrack/Wildtrack/cam1.mp4",
+    "input_policy": "explicit_local_file",
+    "fetch_policy": "skip_fetch_use_existing_file"
+  },
+  "detector": {
+    "implementation": "ultralytics",
+    "architecture": "YOLO26x",
+    "checkpoint_filename": "yolo26x.pt",
+    "weights_sha256": "9fdd44a31c504547ffb81d2c6d9e6dac3493c8eaa8b0398d3f43bae6c7003e92",
+    "source_revision": "Ultralytics/YOLO26 4558807",
+    "target_class_name": "person",
+    "expected_class_id": 0,
+    "imgsz": 1920,
+    "note": "Default for new jobs. Validated on cam1.mp4 with person class and conf=0.25."
+  },
+  "previous_detector": {
+    "implementation": "ultralytics",
+    "architecture": "YOLO11s",
+    "checkpoint_filename": "yolo11s.pt",
+    "weights_sha256": "85a76fe86dd8afe384648546b56a7a78580c7cb7b404fc595f97969322d502d5",
+    "source_revision": "Ultralytics/YOLO11 (hf-mirror main)",
+    "target_class_name": "person",
+    "expected_class_id": 0,
+    "imgsz": 640,
+    "note": "Historical YOLO11s/640 runs kept for reproducibility and replay."
+  }
+}

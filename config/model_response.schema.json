@@ -1,0 +1,149 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "mode",
+    "narrative",
+    "claims",
+    "gaps",
+    "hypotheses",
+    "next_information_needed"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.6.1"
+    },
+    "mode": {
+      "const": "single_video_summary"
+    },
+    "narrative": {
+      "type": "string",
+      "maxLength": 1600
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "text",
+          "evidence_ids",
+          "hypothesis_id"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "candidate_observation",
+              "reviewed_observation"
+            ]
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 800
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "uniqueItems": true,
+            "maxItems": 14,
+            "minItems": 1
+          },
+          "hypothesis_id": {
+            "type": "null"
+          }
+        }
+      },
+      "maxItems": 14
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 800
+      },
+      "maxItems": 8
+    },
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "hypothesis_id",
+          "route_candidate_id",
+          "supporting_evidence_ids",
+          "counter_evidence_ids",
+          "assumptions",
+          "explanation"
+        ],
+        "properties": {
+          "hypothesis_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "route_candidate_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "supporting_evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "uniqueItems": true,
+            "maxItems": 14,
+            "minItems": 1
+          },
+          "counter_evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "uniqueItems": true,
+            "maxItems": 14
+          },
+          "assumptions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 800
+            },
+            "maxItems": 8
+          },
+          "explanation": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 800
+          }
+        }
+      },
+      "maxItems": 0
+    },
+    "next_information_needed": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 800
+      },
+      "maxItems": 8
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence based report content emitted by the model"
+}

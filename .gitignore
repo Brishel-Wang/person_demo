@@ -1,0 +1,16 @@
+storage/
+frontend/dist/
+frontend/node_modules/
+models/
+downloads/
+.env
+.env.*
+!.env.example
+.venv/
+/.venv
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+docs/validation/

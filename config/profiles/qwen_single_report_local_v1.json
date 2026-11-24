@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.6.1",
+  "profile": "qwen_single_report_local_v1",
+  "status": "executed",
+  "enabled": true,
+  "model_id": "Qwen/Qwen3.5-9B",
+  "model_revision": "ModelScope master (2026-11-18)",
+  "weights_manifest_sha256": "46910f5db3cbd8dfdf7abf258625e604b0b2329b935511a47f44805e7fd26011",
+  "tokenizer_revision": null,
+  "chat_template_sha256": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
+  "adapter": "transformers_local_worker",
+  "transformers_exact": null,
+  "torch_exact": null,
+  "device": "cuda:0",
+  "precision": "bfloat16",
+  "input_modality": "structured_text_only",
+  "images_enabled": false,
+  "generation": {
+    "do_sample": false,
+    "enable_thinking": false,
+    "max_input_tokens_including_template": 6144,
+    "max_new_tokens": 1536,
+    "total_context_budget": 8192,
+    "reserved_tokens": 512
+  },
+  "evidence": {
+    "max_items": 14,
+    "selection": "confirmed_first_then_existing_rerank; render selected evidence in local_time order",
+    "exclude_rejected_from_positive_summary": true,
+    "truncation_must_be_visible": true
+  },
+  "runtime": {
+    "concurrency": 1,
+    "total_timeout_s": 120,
+    "max_repair_retries": 1,
+    "gpu_scheduling": "serial_release_vision_before_llm_then_release_llm",
+    "load_on_demand": true,
+    "windows_native_status": "requires backend and memory validation",
+    "wsl2_status": "requires target device validation"
+  },
+  "output_schema": "model_response.schema.json",
+  "system_prompt": "report_system_prompt.txt",
+  "prompt_version": "single_video_report_v2",
+  "current_mode": "single_video_summary",
+  "tools_enabled": false,
+  "network_access": "no model-initiated network",
+  "provider_on_success": "qwen",
+  "provider_on_fallback": "template",
+  "fallback_is_acceptance_success": false
+}

@@ -1,0 +1,103 @@
+{
+  "$schema": "./camera_manifest.schema.json",
+  "schema_version": "1.6.1",
+  "status": "ingest_ready",
+  "dataset_id": "single_camera_demo_v1",
+  "dataset_name": "WILDTRACK cam1 single video demo",
+  "source_catalog": "https://www.epfl.ch/labs/cvlab/data/data-wildtrack/",
+  "metadata_checked_on": "2026-11-17",
+  "verification_level": "server_local_probe_verified",
+  "time_axis": "asset_relative",
+  "reference_camera_code": null,
+  "requested_window_us": {
+    "start": 0,
+    "end": 200000000,
+    "status": "pending_per_asset_probe"
+  },
+  "source_nominal_specs": {
+    "width": 1920,
+    "height": 1080,
+    "capture_fps": 60,
+    "origin": "official_dataset_description_not_local_probe"
+  },
+  "expected_total_bytes": 7902756029,
+  "cameras": [
+    {
+      "camera_id": "c51fbeb0-f582-5714-b219-9407ceeb15e6",
+      "camera_code": "cam_01",
+      "filename": "cam1.mp4",
+      "source_kind": "file",
+      "drive_file_id": "1sGUnExmJM2_tFuBd9LNlexf0LN2m0_c-",
+      "source_url": "https://drive.google.com/open?id=1sGUnExmJM2_tFuBd9LNlexf0LN2m0_c-",
+      "metadata_expected_bytes": 7902756029,
+      "local_path": "/root/ppt-agent-wildtrack/Wildtrack/Wildtrack/cam1.mp4",
+      "sha256": "ea57febe2d3e0e88e125761d37eaa9cf13e48f96475f497aa2f6c477fee9d6a4",
+      "location": {
+        "status": "unknown",
+        "site_id": null,
+        "site_name": null,
+        "area_name": null,
+        "camera_display_name": null,
+        "floor_label": null,
+        "description": null,
+        "geometry": null,
+        "coordinate_system": null,
+        "source_coordinate_system": null,
+        "location_accuracy_m": null,
+        "heading_deg": null,
+        "valid_from_utc": null,
+        "valid_to_utc": null,
+        "source": null,
+        "evidence_key": null
+      },
+      "image_domain": "raw",
+      "probe": {
+        "codec": "h264",
+        "width": 1920,
+        "height": 1080,
+        "avg_fps": 59.94005994005994,
+        "is_vfr": false,
+        "duration_us": 2099614183,
+        "nb_frames": 125851,
+        "timebase_status": "ok"
+      },
+      "source_asset_id": null,
+      "resolved_window_us": {
+        "start": 0,
+        "end": 200000000,
+        "note": "window_within_duration"
+      },
+      "timebase": {
+        "pts_anchor": 70740,
+        "time_base_num": 1,
+        "time_base_den": 180000,
+        "status": "ok"
+      },
+      "recording_time": {
+        "status": "unknown",
+        "anchor_local_us": null,
+        "anchor_utc": null,
+        "original_datetime_text": null,
+        "original_timezone": null,
+        "valid_start_local_us": null,
+        "valid_end_local_us": null,
+        "rate_ppm": null,
+        "uncertainty_us": null,
+        "source": null,
+        "evidence_key": null
+      },
+      "dataset_alignment": {
+        "status": "unknown",
+        "anchor_local_us": null,
+        "anchor_dataset_us": null,
+        "valid_start_local_us": null,
+        "valid_end_local_us": null,
+        "rate_ppm": null,
+        "uncertainty_us": null,
+        "source": null,
+        "evidence_key": null
+      }
+    }
+  ],
+  "cross_camera_alignment_status": "not_applicable_single_source"
+}

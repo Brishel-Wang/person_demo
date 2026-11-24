@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.4",
+  "status": "logical_contract_not_created_collection",
+  "database": "person_demo",
+  "name_templates": {
+    "body": "body_<space_hash12>_ar1"
+  },
+  "one_space_per_collection": true,
+  "vector_role": "tracklet_prototype",
+  "auto_id": false,
+  "enable_dynamic_field": false,
+  "fields": [
+    {
+      "name": "embedding_id",
+      "type": "VARCHAR",
+      "max_length": 64,
+      "is_primary": true
+    },
+    {
+      "name": "dataset_id",
+      "type": "VARCHAR",
+      "max_length": 64
+    },
+    {
+      "name": "camera_code",
+      "type": "VARCHAR",
+      "max_length": 32
+    },
+    {
+      "name": "source_asset_id",
+      "type": "VARCHAR",
+      "max_length": 36
+    },
+    {
+      "name": "ingest_run_id",
+      "type": "VARCHAR",
+      "max_length": 36
+    },
+    {
+      "name": "tracklet_revision_id",
+      "type": "VARCHAR",
+      "max_length": 36
+    },
+    {
+      "name": "feature_space_id",
+      "type": "VARCHAR",
+      "max_length": 64
+    },
+    {
+      "name": "publish_seq",
+      "type": "INT64"
+    },
+    {
+      "name": "t_start_local_us",
+      "type": "INT64"
+    },
+    {
+      "name": "t_end_local_us",
+      "type": "INT64"
+    },
+    {
+      "name": "representative_local_us",
+      "type": "INT64"
+    },
+    {
+      "name": "quality",
+      "type": "FLOAT"
+    },
+    {
+      "name": "sample_count",
+      "type": "INT32"
+    },
+    {
+      "name": "embedding",
+      "type": "FLOAT_VECTOR",
+      "dim_source": "model_registry.output_dim"
+    }
+  ],
+  "index": {
+    "vector_field": "embedding",
+    "type": "FLAT",
+    "metric": "COSINE",
+    "execution": "CPU"
+  },
+  "primary_key_derivation": {
+    "hash": "SHA256",
+    "encoding": "UTF-8",
+    "input": "JSON array with compact separators, ensure_ascii=False, in order below",
+    "ordered_parts": [
+      "dataset_id",
+      "ingest_run_id",
+      "tracklet_revision_id",
+      "feature_space_id",
+      "vector_role",
+      "aggregation_version"
+    ]
+  },
+  "filter_required": [
+    "dataset_id",
+    "authorized camera/asset/run tuples",
+    "feature_space_id",
+    "publish_seq upper bound",
+    "t_start_local_us < asset_window_end_us",
+    "t_end_local_us > asset_window_start_us"
+  ],
+  "publication_watermark": "independent contiguous ready sequence per dataset/asset/run/feature_space",
+  "postgres_recheck_required": [
+    "publication ready",
+    "active run snapshot",
+    "tombstone",
+    "camera authorization",
+    "media availability"
+  ],
+  "representative_vectors": "immutable float32 artifact plus row index; not initial ANN search rows",
+  "modality": "body",
+  "aggregation_version": "mean_l2_v1",
+  "expected_dim": 512,
+  "disabled_modalities": [
+    "face"
+  ],
+  "time_axis": "asset_relative"
+}

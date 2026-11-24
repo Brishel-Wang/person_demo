@@ -1,0 +1,732 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Single video body retrieval demo import manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schema_version",
+    "status",
+    "dataset_id",
+    "dataset_name",
+    "source_catalog",
+    "metadata_checked_on",
+    "verification_level",
+    "time_axis",
+    "reference_camera_code",
+    "requested_window_us",
+    "source_nominal_specs",
+    "expected_total_bytes",
+    "cameras",
+    "cross_camera_alignment_status"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.6.1"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "ingest_ready"
+      ]
+    },
+    "dataset_id": {
+      "const": "single_camera_demo_v1"
+    },
+    "dataset_name": {
+      "type": "string"
+    },
+    "source_catalog": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uri"
+    },
+    "metadata_checked_on": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "verification_level": {
+      "type": "string"
+    },
+    "time_axis": {
+      "const": "asset_relative"
+    },
+    "reference_camera_code": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requested_window_us": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end",
+        "status"
+      ],
+      "properties": {
+        "start": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "end": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "status": {
+          "enum": [
+            "pending_per_asset_probe",
+            "verified_per_asset"
+          ]
+        }
+      }
+    },
+    "source_nominal_specs": {
+      "type": "object"
+    },
+    "expected_total_bytes": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    },
+    "cameras": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "camera_id",
+          "camera_code",
+          "filename",
+          "source_kind",
+          "drive_file_id",
+          "source_url",
+          "metadata_expected_bytes",
+          "local_path",
+          "sha256",
+          "location",
+          "image_domain",
+          "probe",
+          "timebase",
+          "recording_time",
+          "dataset_alignment",
+          "source_asset_id",
+          "resolved_window_us"
+        ],
+        "properties": {
+          "camera_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "camera_code": {
+            "const": "cam_01"
+          },
+          "filename": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_kind": {
+            "const": "file"
+          },
+          "drive_file_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 10
+          },
+          "source_url": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uri"
+          },
+          "metadata_expected_bytes": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1
+          },
+          "local_path": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "minLength": 1
+          },
+          "sha256": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "location": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "site_id",
+              "site_name",
+              "area_name",
+              "camera_display_name",
+              "floor_label",
+              "description",
+              "geometry",
+              "coordinate_system",
+              "source_coordinate_system",
+              "location_accuracy_m",
+              "heading_deg",
+              "valid_from_utc",
+              "valid_to_utc",
+              "source",
+              "evidence_key"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "unknown",
+                  "provided",
+                  "verified"
+                ]
+              },
+              "site_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "site_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "area_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "camera_display_name": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "floor_label": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "description": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "geometry": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "type",
+                      "coordinates"
+                    ],
+                    "properties": {
+                      "type": {
+                        "const": "Point"
+                      },
+                      "coordinates": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "number",
+                            "minimum": -180,
+                            "maximum": 180
+                          },
+                          {
+                            "type": "number",
+                            "minimum": -90,
+                            "maximum": 90
+                          }
+                        ],
+                        "items": false,
+                        "minItems": 2,
+                        "maxItems": 2
+                      }
+                    }
+                  }
+                ]
+              },
+              "coordinate_system": {
+                "enum": [
+                  null,
+                  "WGS84"
+                ]
+              },
+              "source_coordinate_system": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "location_accuracy_m": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "heading_deg": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 0,
+                "exclusiveMaximum": 360
+              },
+              "valid_from_utc": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "valid_to_utc": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "source": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_key": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "image_domain": {
+            "enum": [
+              "raw",
+              "undistorted"
+            ]
+          },
+          "probe": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "additionalProperties": false,
+            "required": [
+              "codec",
+              "width",
+              "height",
+              "duration_us",
+              "first_pts",
+              "last_pts",
+              "avg_frame_rate",
+              "vfr",
+              "decodable",
+              "probe_report_key"
+            ],
+            "properties": {
+              "codec": {
+                "type": "string",
+                "minLength": 1
+              },
+              "width": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "height": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "duration_us": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "first_pts": {
+                "type": "integer"
+              },
+              "last_pts": {
+                "type": "integer"
+              },
+              "avg_frame_rate": {
+                "type": "string",
+                "minLength": 1
+              },
+              "vfr": {
+                "type": "boolean"
+              },
+              "decodable": {
+                "type": "boolean"
+              },
+              "probe_report_key": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "recording_time": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "anchor_local_us",
+              "anchor_utc",
+              "original_datetime_text",
+              "original_timezone",
+              "valid_start_local_us",
+              "valid_end_local_us",
+              "rate_ppm",
+              "uncertainty_us",
+              "source",
+              "evidence_key"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "unknown",
+                  "provided",
+                  "verified"
+                ]
+              },
+              "anchor_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "anchor_utc": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "original_datetime_text": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "original_timezone": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "valid_start_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "valid_end_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "rate_ppm": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "exclusiveMinimum": -1000000
+              },
+              "uncertainty_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "source": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_key": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "dataset_alignment": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "status",
+              "anchor_local_us",
+              "anchor_dataset_us",
+              "valid_start_local_us",
+              "valid_end_local_us",
+              "rate_ppm",
+              "uncertainty_us",
+              "source",
+              "evidence_key"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "unknown",
+                  "provided",
+                  "verified"
+                ]
+              },
+              "anchor_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "anchor_dataset_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "valid_start_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "valid_end_local_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "rate_ppm": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "exclusiveMinimum": -1000000
+              },
+              "uncertainty_us": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0
+              },
+              "source": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "evidence_key": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          },
+          "timebase": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "pts_anchor",
+              "time_base_num",
+              "time_base_den",
+              "status"
+            ],
+            "properties": {
+              "pts_anchor": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "time_base_num": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "time_base_den": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "status": {
+                "enum": [
+                  "unprobed",
+                  "valid",
+                  "invalid"
+                ]
+              }
+            }
+          },
+          "source_asset_id": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "uuid"
+          },
+          "resolved_window_us": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "t_start_local_us",
+                  "t_end_local_us"
+                ],
+                "properties": {
+                  "t_start_local_us": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "t_end_local_us": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "cross_camera_alignment_status": {
+      "const": "not_applicable_single_source"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "ingest_ready"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "requested_window_us": {
+            "properties": {
+              "status": {
+                "const": "verified_per_asset"
+              }
+            }
+          },
+          "cameras": {
+            "items": {
+              "properties": {
+                "local_path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "probe": {
+                  "type": "object",
+                  "properties": {
+                    "decodable": {
+                      "const": true
+                    }
+                  }
+                },
+                "source_asset_id": {
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "resolved_window_us": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "t_start_local_us",
+                    "t_end_local_us"
+                  ],
+                  "properties": {
+                    "t_start_local_us": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "t_end_local_us": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  }
+                },
+                "timebase": {
+                  "type": "object",
+                  "properties": {
+                    "pts_anchor": {
+                      "type": "integer"
+                    },
+                    "time_base_num": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "time_base_den": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "status": {
+                      "const": "valid"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
